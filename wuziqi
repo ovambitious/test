@@ -1,0 +1,96 @@
+//导入包 
+import java.applet.*;  
+import java.awt.*;  
+import java.awt.event.*;   
+
+//构造applet程序 
+
+public class 五子棋 extends Applet implements 
+ActionListener,MouseListener  
+{  
+  
+String str="五子棋游戏！";  
+  
+Dimension currentPos=new Dimension();
+//实例化 像素 
+  
+int zuobiao[][]=new int[19][15]; 
+//声明一个19*15的棋盘   
+int x=20,y=20;  
+  
+boolean unfirstpaint=false;    
+boolean  one=false; 
+public void init() //初始化（生存周期第一步）  
+{  
+    
+addMouseListener(this); //对鼠标添加监听    
+for(int i=0;i<=18;i++) //使整个棋盘设置为0
+{          
+for(int j=0;j<=14;j++)             
+zuobiao[i][j]=0;     
+}     
+}
+public void paint(Graphics g) //画图（生存周期第二步）   
+{      
+int x0=30,y0=50,dx=30,dy=30,N=18,M=14;     //x0,y0初始坐标，dx,dy每格间距       
+int x1,y1,x2,y2;        
+g.setColor(Color.green);            
+y1=y0;       
+y2=y0+M*dy;        
+for(int i=0;i<=N;i++)//用绿色画棋盘中纵向的线
+{          
+x1=x0+i*dx;          
+g.drawLine(x1,y1,x1,y2);      
+}        
+g.setColor(Color.red); //设置成红色      
+x1=x0;       
+x2=x0+N*dx;        
+for(int j=0;j<=M;j++)  //用红色画棋盘中横向的线      
+{ 
+y1=y0+j*dy;
+g.drawLine(x1,y1,x2,y1);    
+}        
+g.setColor(Color.red);  //设置成红色      
+g.setFont(new Font("TimesRoman",Font.BOLD,25));   //设置字体       
+g.drawString(str,120,30);
+g.setColor(Color.red); //设置成红色      
+g.fillOval(600,60,20,20) //用红色填充椭圆;    
+g.drawString(" : 甲方",610,80); 
+g.setColor(Color.blue);
+g.fillOval(600,100,20,20);
+g.drawString(": 乙方",610,120);
+if(unfirstpaint) 
+     
+{
+for(int i=0;i<=18;i++)//画棋子
+{ 
+for(int j=0;j<=14;j++)
+{
+
+if(currentPos.width<=(45+i*30)&¤tPos.width>=(15+i*30))
+x=i;
+
+if(currentPos.height<=(65+j*30)¤tPos.height>=(35+j*30))
+y=j;
+}
+}
+if(x!=20&&y!=20)
+if(zuobiao[x][y]==0)
+{
+if(one)
+zuobiao[x][y]=1;
+else
+zuobiao[x][y]=2;
+for(int i=0;i<=18;i++)
+for(int j=0;j<=14;j++)
+{
+if(zuobiao[i][j]==1)
+{
+g.setColor(Color.red);
+g.fillOval(20+i*30,40+j*30,20,20);
+}
+if(zuobiao[i][j]==2)
+{
+g.setColor(Color.blue);
+g.fillOval(20+i*30,40+j*30,20,20);
+}
